@@ -10,7 +10,7 @@ fi
 
 if [ ! -f /root/boot/booted ]; then
 	sleep 10
-	/root/boot/bin/mkswap.sh >> /root/boot/logs/install.log 2>&1
+#	/root/boot/bin/mkswap.sh >> /root/boot/logs/install.log 2>&1
 	/root/boot/bin/mnt_all.sh >> /root/boot/logs/install.log 2>&1
 	/root/boot/bin/attach_eip.sh >> /root/boot/logs/install.log 2>&1
 	/root/boot/provision.sh provision >> /root/boot/logs/provisioning.log 2>&1
