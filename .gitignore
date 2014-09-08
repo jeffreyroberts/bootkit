@@ -1,1 +1,6 @@
-config/*
+config/eip
+config/myoldip
+config/provisioning
+config/region
+config/vols
+
