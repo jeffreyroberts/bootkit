@@ -4,8 +4,13 @@ set -x
 
 myname=`uname -n`
 
-vip=`cat /root/boot/config/vip`
-bip=`cat /root/boot/config/bip`
+if [ ! -f /tmp/master.ip ]; then
+	vip=`cat /root/boot/config/vip`
+	bip=`cat /root/boot/config/bip`
+else 
+	vip=`cat /tmp/master.ip`
+	bip=`cat /tmp/slave.ip`
+fi
 
 if [ "$myname" == "clustercontrol.aws" ]; then
 	tagvalue='Cluster Control Backup'
@@ -17,9 +22,22 @@ else
 	slave=`/root/boot/bin/ec2-metadata -o | awk '{print $2}'`
 fi
 
+if [[ "$slave" != *10.* ]]; then
+	sleep 60
+	/root/boot/bin/ha
+	exit 0
+fi
+
 sed -i "s/$vip/$master/g" /etc/keepalived/keepalived.conf
 sed -i "s/$bip/$slave/g" /etc/keepalived/keepalived.conf
 
 sed -i "s/$vip/$master/g" /etc/ha.d/ha.cf
 sed -i "s/$bip/$slave/g" /etc/ha.d/ha.cf
 
+if [ "$1" == "reload" ]; then
+	/etc/init.d/heartbeat reload
+	/etc/init.d/keepalived reload
+fi
+
+echo $master > /tmp/master.ip
+echo $slave > /tmp/slave.ip
