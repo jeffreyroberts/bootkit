@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -x
+
+vip=`cat /root/boot/config/vip`
+bip=`cat /root/boot/config/bip`
+
+master=`/opt/aws/bin/ec2-describe-instances --region us-west-2 -F "tag-value=Cluster Control" --filter "instance-state-code=16" | grep 'INSTANCE' | awk '{print $14}'`
+slave=`/root/boot/bin/ec2-metadata -o | awk '{print $2}'`
+
+sed -i "s/$vip/$master/g" /etc/keepalived/keepalived.conf
+sed -i "s/$bip/$slave/g" /etc/keepalived/keepalived.conf
+
+sed -i "s/$vip/$master/g" /etc/ha.d/ha.cf
+sed -i "s/$bip/$slave/g" /etc/ha.d/ha.cf
+
