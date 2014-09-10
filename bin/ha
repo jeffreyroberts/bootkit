@@ -2,11 +2,20 @@
 
 set -x
 
+myname=`uname -n`
+
 vip=`cat /root/boot/config/vip`
 bip=`cat /root/boot/config/bip`
 
-master=`/opt/aws/bin/ec2-describe-instances --region us-west-2 -F "tag-value=Cluster Control" --filter "instance-state-code=16" | grep 'INSTANCE' | awk '{print $14}'`
-slave=`/root/boot/bin/ec2-metadata -o | awk '{print $2}'`
+if [ "$myname" == "clustercontrol.aws" ]; then
+	tagvalue='Cluster Control Backup'
+	slave=`/opt/aws/bin/ec2-describe-instances --region us-west-2 -F "tag-value=$tagvalue" --filter "instance-state-code=16" | grep 'INSTANCE' | awk '{print $14}'`
+	master=`/root/boot/bin/ec2-metadata -o | awk '{print $2}'`
+else
+	tagvalue='Cluster Control'
+	master=`/opt/aws/bin/ec2-describe-instances --region us-west-2 -F "tag-value=$tagvalue" --filter "instance-state-code=16" | grep 'INSTANCE' | awk '{print $14}'`
+	slave=`/root/boot/bin/ec2-metadata -o | awk '{print $2}'`
+fi
 
 sed -i "s/$vip/$master/g" /etc/keepalived/keepalived.conf
 sed -i "s/$bip/$slave/g" /etc/keepalived/keepalived.conf
