@@ -1,5 +1,12 @@
 #!/bin/bash
 
+if [ "$1" != "didgit" ]; then
+	cd /root/boot/
+	git pull origin master
+	/root/boot/boot.sh didgit
+	exit 0
+fi
+
 export AWS_ACCESS_KEY='AKIAJP5YBUABRN4XK7MA'
 export AWS_SECRET_KEY='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'
 
