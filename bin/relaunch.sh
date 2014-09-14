@@ -56,11 +56,11 @@ spot=`ec2-request-spot-instances $ami --price $price --instance-count 1 --type p
 
 echo $spot
 
-cancel=`ec2-cancel-spot-instance-requests $spotid`
+cancel=`ec2-cancel-spot-instance-requests $spotid --region $region`
 
 echo $cancel
 
-terminate=`ec2-terminate-instances $instance`
+terminate=`ec2-terminate-instances $instance --region $region`
 
 echo $terminate
 
