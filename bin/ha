@@ -14,11 +14,11 @@ fi
 
 if [ "$myname" == "jlr-lb-01.aws" ]; then
 	tagvalue='jlr-lb-02.aws'
-	slave=`/opt/aws/bin/ec2-describe-instances --region us-west-2 -F "tag-value=$tagvalue" --filter "instance-state-code=16" | grep 'INSTANCE' | awk '{print $14}'`
+	slave=`/opt/aws/bin/ec2-describe-instances --region us-west-2 -F "tag-value=$tagvalue" --filter "instance-state-code=16" | grep 'INSTANCE' | awk '{print $17}'`
 	master=`/root/boot/bin/ec2-metadata -o | awk '{print $2}'`
 else
 	tagvalue='jlr-lb-01.aws'
-	master=`/opt/aws/bin/ec2-describe-instances --region us-west-2 -F "tag-value=$tagvalue" --filter "instance-state-code=16" | grep 'INSTANCE' | awk '{print $14}'`
+	master=`/opt/aws/bin/ec2-describe-instances --region us-west-2 -F "tag-value=$tagvalue" --filter "instance-state-code=16" | grep 'INSTANCE' | awk '{print $17}'`
 	slave=`/root/boot/bin/ec2-metadata -o | awk '{print $2}'`
 fi
 
