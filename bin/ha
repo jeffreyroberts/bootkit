@@ -2,7 +2,7 @@
 
 set -x
 
-myname=`uname -n`
+myname=`/bin/uname -n`
 
 if [ ! -f /root/boot/temp/master-ip ]; then
 	vip=`cat /root/boot/config/vip`
