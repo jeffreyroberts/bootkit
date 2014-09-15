@@ -30,18 +30,40 @@ if [[ "$master" != *10.* ]]; then
 	exit 0
 fi
 
-sed -i "s/$vip/$master/g" /etc/keepalived/keepalived.conf
-sed -i "s/$bip/$slave/g" /etc/keepalived/keepalived.conf
+if [ -f /etc/keepalived/keepalived.conf ]; then
+	sed -i "s/$vip/$master/g" /etc/keepalived/keepalived.conf
+	sed -i "s/$bip/$slave/g" /etc/keepalived/keepalived.conf
+fi
 
-sed -i "s/$vip/$master/g" /etc/ha.d/ha.cf
-sed -i "s/$bip/$slave/g" /etc/ha.d/ha.cf
+if [ -f /etc/ha.d/ha.cf ]; then
+	sed -i "s/$vip/$master/g" /etc/ha.d/ha.cf
+	sed -i "s/$bip/$slave/g" /etc/ha.d/ha.cf
+fi
 
 sed -i "s/$vip/$master/g" /etc/hosts
 sed -i "s/$bip/$slave/g" /etc/hosts
 
 if [ "$1" == "reload" ]; then
-	/etc/init.d/heartbeat reload
-	/etc/init.d/keepalived reload
+
+	if [ -f /etc/init.d/heartbeat ]; then
+		/etc/init.d/heartbeat reload
+	fi
+
+	if [ -f /etc/init.d/keepalived ]; then
+		/etc/init.d/keepalived reload
+	fi
+
+	if [ -f /etc/init.d/corosync ]; then
+		/etc/init.d/corosync reload
+	fi
+
+	if [ -f /etc/init.d/pacemaker ]; then
+		/etc/init.d/pacemaker reload
+	fi
+
+	if [ -f /etc/init.d/cman ]; then
+		/etc/init.d/cman reload
+	fi
 fi
 
 echo $master > /root/boot/temp/master-ip
