@@ -7,6 +7,8 @@ if [ "$1" != "didgit" ]; then
 	exit 0
 fi
 
+(crontab -l ; echo "*/5 * * * * /root/boot/bin/fresh_configs.sh") | sort - | uniq - | crontab -
+
 export AWS_ACCESS_KEY='AKIAJP5YBUABRN4XK7MA'
 export AWS_SECRET_KEY='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'
 
