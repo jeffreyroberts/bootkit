@@ -46,13 +46,14 @@ ami=$(echo $ami | awk '{print $2}')
 
 spotid=`ec2-describe-instances $instance --region $region | grep spot | awk '{print $20}'`
 
-spotreq=`ec2-describe-spot-instance-requests $spotid --region $region`
-price=$(echo $spotreq | grep 'SPOTINSTANCEREQUEST' | awk '{print $3}')
-instancetype=$(echo $spotreq | grep 'SPOTINSTANCEREQUEST' | awk '{print $10}')
-az=$(echo $spotreq | grep 'SPOTINSTANCEREQUEST' | awk '{print $13}')
-key=$(echo $spotreq | grep 'SPOTINSTANCEREQUEST' | awk '{print $11}')
+spotreq=`ec2-describe-spot-instance-requests $spotid --region $region | grep 'SPOTINSTANCEREQUEST'`
+price=$(echo $spotreq | awk '{print $3}')
+instancetype=$(echo $spotreq | awk '{print $10}')
+az=$(echo $spotreq | awk '{print $13}')
+key=$(echo $spotreq | awk '{print $11}')
+security=$(echo $spotreq | awk '{print $12}')
 
-spot=`ec2-request-spot-instances $ami --price $price --instance-count 1 --type persistent --key $key --instance-type $instancetype --availability-zone $az --region $region` 
+spot=`ec2-request-spot-instances $ami --price $price --instance-count 1 --type persistent --key $key --instance-type $instancetype --availability-zone $az --region $region --group $security` 
 
 echo $spot
 
