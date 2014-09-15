@@ -59,6 +59,7 @@ if [ "$1" == "reload" ]; then
 
 	if [ -f /etc/init.d/cman ]; then
 		/etc/init.d/cman reload
+		/etc/init.d/cman start
 	fi
 fi
 
