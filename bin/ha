@@ -23,8 +23,10 @@ else
 fi
 
 if [[ "$slave" != *10.* ]]; then
-	sleep 60
-	/root/boot/bin/ha
+	exit 0
+fi
+
+if [[ "$master" != *10.* ]]; then
 	exit 0
 fi
 
