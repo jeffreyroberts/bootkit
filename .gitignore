@@ -1,3 +1,6 @@
 logs/*.log
 temp/*.*
 temp/gist*
+booted
+temp/master-ip
+temp/slave-ip
