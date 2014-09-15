@@ -4,12 +4,12 @@ set -x
 
 myname=`uname -n`
 
-if [ ! -f /tmp/master.ip ]; then
+if [ ! -f /root/boot/temp/master-ip ]; then
 	vip=`cat /root/boot/config/vip`
 	bip=`cat /root/boot/config/bip`
 else 
-	vip=`cat /tmp/master.ip`
-	bip=`cat /tmp/slave.ip`
+	vip=`cat /root/boot/temp/master-ip`
+	bip=`cat /root/boot/temp/slave-ip`
 fi
 
 if [ "$myname" == "jlr-lb-01.aws" ]; then
@@ -42,5 +42,5 @@ if [ "$1" == "reload" ]; then
 	/etc/init.d/keepalived reload
 fi
 
-echo $master > /tmp/master.ip
-echo $slave > /tmp/slave.ip
+echo $master > /root/boot/temp/master-ip
+echo $slave > /root/boot/temp/slave-ip
