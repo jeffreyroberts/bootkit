@@ -12,12 +12,12 @@ else
 	bip=`cat /tmp/slave.ip`
 fi
 
-if [ "$myname" == "clustercontrol.aws" ]; then
-	tagvalue='Cluster Control Backup'
+if [ "$myname" == "jlr-lb-01.aws" ]; then
+	tagvalue='jlr-lb-02.aws'
 	slave=`/opt/aws/bin/ec2-describe-instances --region us-west-2 -F "tag-value=$tagvalue" --filter "instance-state-code=16" | grep 'INSTANCE' | awk '{print $14}'`
 	master=`/root/boot/bin/ec2-metadata -o | awk '{print $2}'`
 else
-	tagvalue='Cluster Control'
+	tagvalue='jlr-lb-01.aws'
 	master=`/opt/aws/bin/ec2-describe-instances --region us-west-2 -F "tag-value=$tagvalue" --filter "instance-state-code=16" | grep 'INSTANCE' | awk '{print $14}'`
 	slave=`/root/boot/bin/ec2-metadata -o | awk '{print $2}'`
 fi
@@ -33,6 +33,9 @@ sed -i "s/$bip/$slave/g" /etc/keepalived/keepalived.conf
 
 sed -i "s/$vip/$master/g" /etc/ha.d/ha.cf
 sed -i "s/$bip/$slave/g" /etc/ha.d/ha.cf
+
+sed -i "s/$vip/$master/g" /etc/hosts
+sed -i "s/$bip/$slave/g" /etc/hosts
 
 if [ "$1" == "reload" ]; then
 	/etc/init.d/heartbeat reload
