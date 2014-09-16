@@ -40,6 +40,11 @@ if [ -f /etc/ha.d/ha.cf ]; then
 	sed -i "s/$bip/$slave/g" /etc/ha.d/ha.cf
 fi
 
+if [ -f /etc/corosync/corosync.conf ]; then
+	sed -i "s/$vip"/$master/g" /etc/corosync/corosync.conf
+	sed -i "s/$bip"/$slave/g" /etc/corosync/corosync.conf
+fi
+
 sed -i "s/$vip/$master/g" /etc/hosts
 sed -i "s/$bip/$slave/g" /etc/hosts
 
