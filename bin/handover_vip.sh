@@ -29,12 +29,12 @@ if [ "$myip" == "$vip" ]; then
 	if [ "$instance" != "" ]; then
 
 		# Mapping VIP to primary server
-#		./ec2-associate-address --aws-access-key $AWS_ACCESS_KEY --aws-secret-key $AWS_SECRET_KEY $vip -i $instance --region us-west-2 2>&1 >> /tmp/hi
+echo		"./ec2-associate-address --aws-access-key $AWS_ACCESS_KEY --aws-secret-key $AWS_SECRET_KEY $vip -i $instance --region us-west-2 2>&1" >> /tmp/failover.log
 
 		# Mapping BIP to secondary server
-#		./ec2-associate-address --aws-access-key $AWS_ACCESS_KEY --aws-secret-key $AWS_SECRET_KEY $bip -i $myinstance --region us-west-2 2>&1 >> /tmp/hi
+echo		"./ec2-associate-address --aws-access-key $AWS_ACCESS_KEY --aws-secret-key $AWS_SECRET_KEY $bip -i $myinstance --region us-west-2 2>&1" >> /tmp/failover.log
 
 		# Rebooting secondary server
-#		./ec2-reboot-instances $myinstance --region us-west-2
+echo		"./ec2-reboot-instances $myinstance --region us-west-2" >> /tmp/failover.log
 	fi
 fi
