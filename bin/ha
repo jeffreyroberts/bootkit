@@ -30,6 +30,10 @@ if [[ "$master" != *10.* ]]; then
 	exit 0
 fi
 
+if [ "$vip" == "$master ] && [ "$bip" == "$slave" ]; then
+	exit 0
+fi
+
 if [ -f /etc/keepalived/keepalived.conf ]; then
 	sed -i "s/$vip/$master/g" /etc/keepalived/keepalived.conf
 	sed -i "s/$bip/$slave/g" /etc/keepalived/keepalived.conf
