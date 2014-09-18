@@ -1,5 +1,7 @@
 #!/bin/bash
 
+touch /var/lock/subsys/killcs
+
 if [ "$1" != "didgit" ]; then
 	cd /root/boot/
 	/usr/bin/git pull origin master
