@@ -27,11 +27,11 @@ if [ "$myip" != "$vip" ]; then
 	echo "VRRP MASTER "`date "+%m%d%Y%H%M"` >> /tmp/failover.log
 
 	# Mapping VIP to working server
-echo "	./ec2-associate-address --aws-access-key $AWS_ACCESS_KEY --aws-secret-key $AWS_SECRET_KEY $vip -i $instance --region us-west-2 2>&1" >> /tmp/failover.log
+	./ec2-associate-address --aws-access-key $AWS_ACCESS_KEY --aws-secret-key $AWS_SECRET_KEY $vip -i $instance --region us-west-2 2>&1 >> /tmp/failover.log
 
 	# Reboot broken server
-echo "	./ec2-reboot-instances $instance2 --region us-west-2" >> /tmp/failover.log
+	./ec2-reboot-instances $instance2 --region us-west-2 >> /tmp/failover.log
 
 	# Associate secondary ip to broken instance
-echo "	./ec2-associate-address --aws-access-key $AWS_ACCESS_KEY --aws-secret-key $AWS_SECRET_KEY $bip -i $instance2 --region us-west-2 2>&1" >> /tmp/failover.log
+	./ec2-associate-address --aws-access-key $AWS_ACCESS_KEY --aws-secret-key $AWS_SECRET_KEY $bip -i $instance2 --region us-west-2 2>&1 >> /tmp/failover.log
 fi
