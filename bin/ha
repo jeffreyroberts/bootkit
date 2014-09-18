@@ -63,8 +63,8 @@ if [ "$1" == "reload" ]; then
 	fi
 
 	if [ -f /etc/init.d/cman ]; then
-		/etc/init.d/cman reload
-		/etc/init.d/cman start
+		/usr/bin/pkill -9 corosync
+		/etc/init.d/cman restart
 	fi
 fi
 
