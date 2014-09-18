@@ -100,15 +100,12 @@ END
 }
 
 AWSVip_start() {
-    /root/boot/bin/takeover_vip.sh
-    if [ $? =  $OCF_SUCCESS ]; then
-	return $OCF_SUCCESS
-    fi
-    touch ${OCF_RESKEY_state}
+    bash -c /root/boot/bin/takeover_vip.sh &
+    return $OCF_SUCCESS
 }
 
 AWSVip_stop() {
-    /root/boot/bin/handover_vip.sh
+    bash -c /root/boot/bin/handover_vip.sh &
     return $OCF_SUCCESS
 }
 
