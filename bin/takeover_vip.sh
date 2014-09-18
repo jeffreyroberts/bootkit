@@ -30,7 +30,7 @@ if [ "$myip" != "$vip" ]; then
 	./ec2-associate-address --aws-access-key $AWS_ACCESS_KEY --aws-secret-key $AWS_SECRET_KEY $vip -i $instance --region us-west-2 2>&1 >> /tmp/failover.log
 
 	# Reboot broken server
-	./ec2-reboot-instances $instance2 --region us-west-2 >> /tmp/failover.log
+#	./ec2-reboot-instances $instance2 --region us-west-2 >> /tmp/failover.log
 
 	# Associate secondary ip to broken instance
 	./ec2-associate-address --aws-access-key $AWS_ACCESS_KEY --aws-secret-key $AWS_SECRET_KEY $bip -i $instance2 --region us-west-2 2>&1 >> /tmp/failover.log
