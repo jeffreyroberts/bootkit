@@ -44,7 +44,17 @@ ami=`ec2-create-image $instance --name "$d" --description "$d AUTOAMI" --no-rebo
 ami=$(echo $ami | awk '{print $2}')
 # ami='ami-4dde9f7d'
 
+if [ "$ami" == "" ]; then
+	echo "Please try again"
+	exit
+fi
+
 spotid=`ec2-describe-instances $instance --region $region | grep spot | awk '{print $20}'`
+
+if [ "$spotid" == "" ]; then
+	echo "Please try again"
+	exit
+fi
 
 spotreq=`ec2-describe-spot-instance-requests $spotid --region $region | grep 'SPOTINSTANCEREQUEST'`
 price=$(echo $spotreq | awk '{print $3}')
@@ -56,6 +66,11 @@ security=$(echo $spotreq | awk '{print $12}')
 spot=`ec2-request-spot-instances $ami --price $price --instance-count 1 --type persistent --key $key --instance-type $instancetype --availability-zone $az --region $region --group $security` 
 
 echo $spot
+
+if [ "$spot" == "" ]; then
+	echo "Please try again"
+	exit
+fi
 
 cancel=`ec2-cancel-spot-instance-requests $spotid --region $region`
 
