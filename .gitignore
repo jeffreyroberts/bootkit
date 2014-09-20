@@ -4,3 +4,4 @@ temp/gist*
 booted
 temp/master-ip
 temp/slave-ip
+config/*
