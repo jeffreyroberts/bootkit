@@ -1,8 +1,8 @@
 #!/bin/bash
 cd /opt/aws/bin/
 
-export AWS_ACCESS_KEY='AKIAJP5YBUABRN4XK7MA'
-export AWS_SECRET_KEY='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'
+export AWS_ACCESS_KEY=''
+export AWS_SECRET_KEY=''
 export EC2_HOME=/opt/aws
 export JAVA_HOME=/usr
 
